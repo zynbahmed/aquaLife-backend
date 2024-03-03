@@ -12,7 +12,7 @@ const GetActivities = async (req, res) => {
 const GetActivitiesDetails = async (req, res) => {
     const activityId = req.params.activity_id
     try {
-      const activity = await Activity.findById(activityId)
+      const activity = await Activity.findById(activityId).populate('reviews')
       res.send(activity)
     } catch (error) {
       throw(error)
