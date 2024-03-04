@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use('/auth', AuthRouter)
 app.use('/activities', ActivityRouter)
-app.use('/activities', ReviewRouter)
+app.use('/', ReviewRouter)
 app.use('/bookings', BookingRouter)
 
 app.use('/', (req, res) => {

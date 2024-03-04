@@ -1,4 +1,4 @@
-const { Review, Activity } = require('../models')
+const { Review, Activity } = require("../models")
 
 const GetReview = async (req, res) => {
   try {
@@ -11,9 +11,10 @@ const GetReview = async (req, res) => {
 
 const CreateReview = async (req, res) => {
   try {
-    req.body.user = req.user._id
-    const review = await Review.create({...req.body})
+    // req.body.user = req.user._id
+    const review = await Review.create({ ...req.body })
     const activity = await Activity.findById(req.params.activity_id)
+    // console.log("review:", review, "activity", req.params)
     activity.reviews.push(review._id)
     await (await activity.save()).populate('reviews')
     res.send(activity)
@@ -25,7 +26,11 @@ const CreateReview = async (req, res) => {
 const DeleteReview = async (req, res) => {
   try {
     await review.deleteOne({ _id: req.params.review_id })
-    res.send({ msg: 'Review Deleted', payload: req.params.review_id, status: 'Ok' })
+    res.send({
+      msg: "Review Deleted",
+      payload: req.params.review_id,
+      status: "Ok",
+    })
   } catch (error) {
     throw error
   }
@@ -34,5 +39,5 @@ const DeleteReview = async (req, res) => {
 module.exports = {
   GetReview,
   CreateReview,
-  DeleteReview
+  DeleteReview,
 }
