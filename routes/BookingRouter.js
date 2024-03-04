@@ -9,11 +9,5 @@ router.post(
   middleware.verifyToken,
   controller.CreateBooking
 )
-router.delete(
-  '/:booking_id',
-  middleware.stripToken,
-  middleware.verifyToken,
-  controller.DeleteBooking
-)
 
 module.exports = router

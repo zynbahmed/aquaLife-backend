@@ -6,7 +6,7 @@ const userSchema = new Schema(
     email: { type: String, required: true },
     passwordDigest: { type: String, required: true },
     userType: {type:String , enum:["admin","user"] ,default:"user"},
-    firstlog: {type:Boolean , default:true }
+    bookings: [{ type: Schema.Types.ObjectId, ref: 'Booking' }]
   },
   { timestamps: true }
 )

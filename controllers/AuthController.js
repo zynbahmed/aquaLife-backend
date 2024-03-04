@@ -1,5 +1,5 @@
-const { User } = require('../models')
-const middleware = require('../middleware')
+const { User } = require("../models")
+const middleware = require("../middleware")
 
 const Register = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ const Register = async (req, res) => {
     if (existingUser) {
       return res
         .status(400)
-        .send('A user with that email has already been registered!')
+        .send("A user with that email has already been registered!")
     } else {
       const user = await User.create({ name, email, passwordDigest })
       res.send(user)
@@ -30,15 +30,17 @@ const Login = async (req, res) => {
     if (matched) {
       let payload = {
         id: user.id,
-        email: user.email
+        email: user.email,
+        name: user.name,
+        userType: user.userType,
       }
       let token = middleware.createToken(payload)
       return res.send({ user: payload, token })
     }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+    res.status(401).send({ status: "Error", msg: "Unauthorized" })
   } catch (error) {
     console.log(error)
-    res.status(401).send({ status: 'Error', msg: 'An error has occurred!' })
+    res.status(401).send({ status: "Error", msg: "An error has occurred!" })
   }
 }
 
@@ -52,17 +54,26 @@ const UpdatePassword = async (req, res) => {
     )
     if (matched) {
       let passwordDigest = await middleware.hashPassword(newPassword)
-      user = await User.findByIdAndUpdate(req.params.user_id, { passwordDigest })
+      user = await User.findByIdAndUpdate(req.params.user_id, {
+        passwordDigest,
+      })
       let payload = {
         id: user.id,
-        email: user.email
+        email: user.email,
       }
-      return res.send({ status: 'Password Updated!', user: payload })
+      return res.send({ status: "Password Updated!", user: payload })
     }
-    res.status(401).send({ status: 'Error', msg: 'Old Password did not match!' })
+    res
+      .status(401)
+      .send({ status: "Error", msg: "Old Password did not match!" })
   } catch (error) {
     console.log(error)
-    res.status(401).send({ status: 'Error', msg: 'An error has occurred updating password!' })
+    res
+      .status(401)
+      .send({
+        status: "Error",
+        msg: "An error has occurred updating password!",
+      })
   }
 }
 
@@ -75,5 +86,5 @@ module.exports = {
   Register,
   Login,
   UpdatePassword,
-  CheckSession
+  CheckSession,
 }

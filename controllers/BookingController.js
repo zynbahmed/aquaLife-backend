@@ -18,17 +18,7 @@ const CreateBooking = async (req, res) => {
   }
 }
 
-const DeleteBooking = async (req, res) => {
-  try {
-    await booking.deleteOne({ _id: req.params.booking_id })
-    res.send({ msg: 'Booking Deleted', payload: req.params.booking_id, status: 'Ok' })
-  } catch (error) {
-    throw error
-  }
-}
-
 module.exports = {
   GetBooking,
-  CreateBooking,
-  DeleteBooking
+  CreateBooking
 }
