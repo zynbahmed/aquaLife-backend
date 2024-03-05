@@ -1,4 +1,4 @@
-const { Schema } = require('mongoose')
+const { Schema } = require("mongoose")
 
 const activitySchema = new Schema(
   {
@@ -7,7 +7,8 @@ const activitySchema = new Schema(
     description: { type: String, required: true },
     price: { type: Number, required: true },
     image: { type: String },
-    reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
+    userQty: { type: Number },
   },
   { timestamps: true }
 )
