@@ -1,4 +1,4 @@
-const { Booking } = require('../models')
+const { Booking, User } = require('../models')
 
 const GetBooking = async (req, res) => {
   try {
@@ -10,6 +10,7 @@ const GetBooking = async (req, res) => {
 }
 
 const CreateBooking = async (req, res) => {
+  console.log(req.body)
   try {
     let booking = []
     let totalPrice = 0
@@ -21,10 +22,9 @@ const CreateBooking = async (req, res) => {
     const activityBooking = await Booking.create({
       activities: booking,
       totalPrice: totalPrice,
-      user: req.body,
-      user_id
+      user: req.body.user.id
     })
-    await user.updateOne(
+    await User.updateOne(
       { _id: req.body.user._id },
       { $push: { bookings: activityBooking._id } }
     )
