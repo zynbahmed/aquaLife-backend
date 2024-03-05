@@ -33,6 +33,7 @@ const Login = async (req, res) => {
         email: user.email,
         name: user.name,
         userType: user.userType,
+        bookings: user.bookings
       }
       let token = middleware.createToken(payload)
       return res.send({ user: payload, token })
