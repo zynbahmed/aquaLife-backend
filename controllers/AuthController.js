@@ -84,9 +84,13 @@ const CheckSession = async (req, res) => {
 const GetUserDetails = async (req, res) => {
   const { payload } = res.locals
   const userId = payload.id
-  console.log(userId)
   try {
-    const user = await User.findById(userId).populate('bookings', 'activities')
+    const user = await User.findById(userId).populate({
+      path: 'bookings',
+      populate: {
+        path: 'activities'
+      }
+    })
     res.send(user)
   } catch (error) {
     throw error
