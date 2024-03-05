@@ -25,7 +25,7 @@ const CreateBooking = async (req, res) => {
       user: req.body.user.id
     })
     await User.updateOne(
-      { _id: req.body.user._id },
+      { _id: req.body.user.id },
       { $push: { bookings: activityBooking._id } }
     )
     // const booking = await Booking.create({ ...req.body })
