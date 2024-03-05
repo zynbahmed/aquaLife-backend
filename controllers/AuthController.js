@@ -33,7 +33,7 @@ const Login = async (req, res) => {
         email: user.email,
         name: user.name,
         userType: user.userType,
-        bookings: user.bookings
+        bookings: user.bookings,
       }
       let token = middleware.createToken(payload)
       return res.send({ user: payload, token })
@@ -69,12 +69,10 @@ const UpdatePassword = async (req, res) => {
       .send({ status: "Error", msg: "Old Password did not match!" })
   } catch (error) {
     console.log(error)
-    res
-      .status(401)
-      .send({
-        status: "Error",
-        msg: "An error has occurred updating password!",
-      })
+    res.status(401).send({
+      status: "Error",
+      msg: "An error has occurred updating password!",
+    })
   }
 }
 
@@ -86,12 +84,16 @@ const CheckSession = async (req, res) => {
 const GetUserDetails = async (req, res) => {
   const { payload } = res.locals
   const userId = payload.id
-  console.log(userId)
   try {
-    const user = await User.findById(userId).populate('bookings')
+    const user = await User.findById(userId).populate({
+      path: "bookings",
+      populate: {
+        path: "activities",
+      },
+    })
     res.send(user)
   } catch (error) {
-    throw(error)
+    throw error
   }
 }
 
@@ -100,5 +102,5 @@ module.exports = {
   Login,
   UpdatePassword,
   CheckSession,
-  GetUserDetails
+  GetUserDetails,
 }
