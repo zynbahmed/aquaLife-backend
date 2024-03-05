@@ -83,9 +83,22 @@ const CheckSession = async (req, res) => {
   res.send(payload)
 }
 
+const GetUserDetails = async (req, res) => {
+  const { payload } = res.locals
+  const userId = payload.id
+  console.log(userId)
+  try {
+    const user = await User.findById(userId).populate('bookings')
+    res.send(user)
+  } catch (error) {
+    throw(error)
+  }
+}
+
 module.exports = {
   Register,
   Login,
   UpdatePassword,
   CheckSession,
+  GetUserDetails
 }
