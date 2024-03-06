@@ -24,4 +24,11 @@ router.get(
   controller.GetUserDetails
 )
 
+router.put(
+  '/update',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.UpdateUser
+)
+
 module.exports = router
